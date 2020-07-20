@@ -6,50 +6,62 @@
           <i class="far fa-plus-square"></i> Cirar Alerta
         </h3>
       </div>
-      <div class="body-card">
-        <div class="field">
-          <input type="text" name="nome" id="nome" placeholder="Nome" />
-          <label for="fullname">Nome</label>
+      <form @submit.prevent="createEvent">
+        <div class="body-card">
+          <div class="field">
+            <input type="text" v-model="alert.name" id="name" placeholder="Nome" />
+            <label for="name">Nome</label>
+          </div>
+          <div class="field">
+            <input type="text" v-model="alert.description" id="description" placeholder="Descrição" />
+            <label for="description">Descrição</label>
+          </div>
+          <div class="field">
+            <select v-model="alert.category">
+              <option v-for="cat in categories" :key="cat">{{ cat }}</option>
+            </select>
+            <label for="fullname">Tipo</label>
+          </div>
+          <div class="field">
+            <select v-model="alert.frequency">
+              <option v-for="fren in frequency" :key="fren">{{ fren }}</option>
+            </select>
+            <label for="fullname">Frequência</label>
+          </div>
+          <datepicker></datepicker>
         </div>
-        <div class="field">
-          <input type="text" name="nome" id="nome" placeholder="Nome" />
-          <label for="fullname">Descrição</label>
+        <div class="footer-card">
+          <button type="submit" class="btn-primary">Cadastrar</button>
         </div>
-        <div class="field">
-          <select>
-            <option>teste</option>
-            <option>teste</option>
-            <option>teste</option>
-          </select>
-          <label for="fullname">Tipo</label>
-        </div>
-        <div class="field">
-          <select>
-            <option></option>
-          </select>
-          <label for="fullname">Frequência</label>
-        </div>
-        <datepicker></datepicker>
-      </div>
-      <div class="footer-card">
-        <router-link :to="{ name: 'details', params: { id: '1' } }" class="btn-primary">Cadastrar</router-link>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from "vuex";
 import { Datepicker } from "vuejs-datepicker";
 
 export default {
   components: {
     Datepicker
   },
-
-  computed: {
-    ...mapState(["user", "categories"]),
-    ...mapGetters(["catLength"])
-  }
+  methods: {
+    createAlert() {
+      this.store.dispatch("createAlert", this.alert);
+    }
+  },
+  data() {
+    return {
+      alert: {
+        category: "",
+        name: "",
+        description: "",
+        frequency: ""
+      },
+      categories: this.$store.state.categories,
+      frequency: this.$store.state.frequency
+    };
+  },
+  computed: {}
 };
 </script>
 <style scoped>

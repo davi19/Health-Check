@@ -2,11 +2,18 @@
   <div>
     <div class="card">
       <div class="header-card">
-        <h3 class="title-card">{{ alerts.title }}</h3>
+        <h3 class="title-card">
+          <i class="far fa-bell"></i>
+          {{ alerts.title }}
+        </h3>
       </div>
       <div class="body-card">{{ alerts.description }}</div>
       <div class="footer-card">
-        <router-link :to="{ name: 'details', params: { id: '1' } }" class="btn-primary">Detalhes</router-link>
+        <router-link
+          :to="{ name: 'details', params: { id: '1' } }"
+          class="btn-primary"
+          >Detalhes</router-link
+        >
       </div>
     </div>
   </div>
@@ -18,10 +25,10 @@ export default {
     return {
       alerts: {
         title: "beber agua",
-        description: "se hidratar"
-      }
+        description: "se hidratar",
+      },
     };
-  }
+  },
 };
 </script>
 
@@ -43,18 +50,21 @@ export default {
 .title-card {
   text-transform: uppercase;
   padding-top: 15px;
-  padding-right: 150px;
+  padding-right: 350px;
   font-weight: bold;
   color: #4fc4cf;
 }
-div.card {
-  text-align: center;
-  height: 100px;
-  width: 400px;
+.card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
+  width: 40%;
   border-radius: 5px;
+  margin: 0 auto;
 }
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
 .btn-primary {
   text-transform: uppercase;
   background-color: #994ff3;

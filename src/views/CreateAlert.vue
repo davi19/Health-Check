@@ -6,29 +6,31 @@
           <i class="far fa-plus-square"></i> Cirar Alerta
         </h3>
       </div>
-      <form @submit.prevent="createEvent">
+      <h4>{{ this.$store.state.error }}</h4>
+      <h4>{{ this.$store.state.sucesso }}</h4>
+      <form @submit.prevent="createAlert">
         <div class="body-card">
           <div class="field">
             <input type="text" v-model="alert.name" id="name" placeholder="Nome" />
             <label for="name">Nome</label>
           </div>
           <div class="field">
-            <input type="text" v-model="alert.description" id="description" placeholder="Descrição" />
-            <label for="description">Descrição</label>
+            <input
+              type="text"
+              v-model="alert.starthour"
+              id="startHour"
+              placeholder="Hora de Inicio"
+            />
+            <label for="startHour">Hora de inicio</label>
           </div>
           <div class="field">
-            <select v-model="alert.category">
-              <option v-for="cat in categories" :key="cat">{{ cat }}</option>
-            </select>
-            <label for="fullname">Tipo</label>
+            <input type="text" v-model="alert.endhour" id="endhour" placeholder="Hora de Fim" />
+            <label for="endhour">Hora de Fim</label>
           </div>
           <div class="field">
-            <select v-model="alert.frequency">
-              <option v-for="fren in frequency" :key="fren">{{ fren }}</option>
-            </select>
-            <label for="fullname">Frequência</label>
+            <input type="text" v-model="alert.interval" id="interval" placeholder="Intervalo" />
+            <label for="interval">Intervalo</label>
           </div>
-          <datepicker></datepicker>
         </div>
         <div class="footer-card">
           <button type="submit" class="btn-primary">Cadastrar</button>
@@ -38,27 +40,30 @@
   </div>
 </template>
 <script>
-import { Datepicker } from "vuejs-datepicker";
-
 export default {
-  components: {
-    Datepicker
-  },
   methods: {
     createAlert() {
-      this.store.dispatch("createAlert", this.alert);
+      this.$store
+        .dispatch("createAlert", this.alert)
+        .then(() => {
+          this.alert = this.createFreshAlert();
+        })
+        .catch(() => {
+          this.$store.state.error = "Erro ao cadastrar usuário";
+        });
+    },
+    createFreshAlert() {
+      return {
+        starthour: "",
+        endhour: "",
+        name: "",
+        interval: ""
+      };
     }
   },
   data() {
     return {
-      alert: {
-        category: "",
-        name: "",
-        description: "",
-        frequency: ""
-      },
-      categories: this.$store.state.categories,
-      frequency: this.$store.state.frequency
+      alert: this.createFreshAlert()
     };
   },
   computed: {}

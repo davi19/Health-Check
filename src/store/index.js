@@ -5,21 +5,30 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: { id: "1", name: "Davi" },
-    name: "",
-    description: "",
-    frequency: ["Diário", "Semanal", "Mensal"],
-    categories: ["Hábitos", "Lembretes", "Ações"],
+    alerts: [],
+    sucesso: "",
+    error: "",
   },
   mutations: {
-    ADD_ALERT(state, alert) {
-      state.alert.push(alert);
+    ADD_ALERT(state) {
+      state.sucesso = "Cadastro realizado com sucesso!";
+    },
+    SET_ALERTS(state, alerts) {
+      state.alerts = alerts;
     },
   },
   actions: {
     createAlert({ commit }, alert) {
-      AlertServices.postAlert(alert);
-      commit("ADD_ALERT", alert);
+      return AlertServices.postAlert(alert).then(() => {
+        commit("ADD_ALERT");
+      });
+    },
+    fetchAlerts({ commit }) {
+      AlertServices.getAlerts()
+        .then((response) => {
+          commit("SET_ALERTS", response.data["data"]);
+        })
+        .catch((error) => console.log(error));
     },
   },
   modules: {},

@@ -4,16 +4,15 @@
       <div class="header-card">
         <h3 class="title-card">
           <i class="far fa-bell"></i>
-          {{ alerts.title }}
+          {{ alert.name }}
         </h3>
       </div>
-      <div class="body-card">{{ alerts.description }}</div>
+      <div class="body-card">{{ alert.starthour }}</div>
       <div class="footer-card">
         <router-link
-          :to="{ name: 'details', params: { id: '1' } }"
+          :to="{ name: 'details', params: { id: alert.id } }"
           class="btn-primary"
-          >Detalhes</router-link
-        >
+        >Detalhes</router-link>
       </div>
     </div>
   </div>
@@ -21,14 +20,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      alerts: {
-        title: "beber agua",
-        description: "se hidratar",
-      },
-    };
-  },
+  props: {
+    alert: Object
+  }
 };
 </script>
 
